@@ -18,6 +18,18 @@ extract: $(SRC_DIR) $(ASSETS_DIR)
 	@echo "Cleaning up temp directory..."
 	@rm -rf $(TEMP)
 
+build: clean $(SRC_DIR) $(ASSETS_DIR) $(BIN_DIR)
+	@echo "Building $(NAME)..."
+	@cd $(SRC_DIR) && zip -r ../$(BIN_FILE) ./*
+	@cd $(ASSETS_DIR) && zip -r ../$(BIN_FILE) ./*
+	@echo "Build complete."
+	@sha256sum $(BIN_FILE)
+
+clean:
+	@echo "Cleaning up build file and temp dir..."
+	@rm -f $(BIN_DIR)/$(NAME).$(EXT)
+	@rm -rf $(TEMP)
+
 # Ensure necessary directories exist
 $(SRC_DIR):
 	@echo "Creating src/ directory..."
@@ -26,3 +38,6 @@ $(SRC_DIR):
 $(ASSETS_DIR):
 	@echo "Creating assets/ directory..."
 	@mkdir -p $(ASSETS_DIR)
+$(BIN_DIR):
+	@echo "Creating bin/ directory..."
+	@mkdir -p $(BIN_DIR)
