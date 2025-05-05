@@ -11,6 +11,7 @@ TYPE = project
 SRC_DIR = src
 ASSETS_DIR = assets
 BIN_DIR = bin
+BIN_ASSETS_DIR = "$(BIN_DIR)"/assets
 
 # zip file structure
 ZIP_JSON_FILE = "$(TYPE)".json
@@ -33,26 +34,46 @@ format:
 	@echo 'Formatting $(ZIP_JSON_FILE)...'
 	@prettier --write "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
 
-build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)"
+build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)" "$(BIN_ASSETS_DIR)"
 	@echo 'Building "$(NAME)"...'
-	@cd "$(SRC_DIR)" && zip -r ../"$(ZIP_FILE)" ./*
-	@cd "$(ASSETS_DIR)" && zip -r ../"$(ZIP_FILE)" ./*
+	@echo 'Renaming assets to their md5 hashes...'
+	@echo 'Zipping project file...'
+	@zip "$(ZIP_FILE)" "$(SRC_DIR)/$(ZIP_JSON_FILE)"
+	@echo 'Zipping assets...'
+	@for file in $(ASSETS_DIR)/*; do \
+		[ -f "$$file" ] || continue; \
+		ext=$${file##*.}; \
+		base=$$(basename "$$file"); \
+		hash=$$(md5sum "$$file" | cut -d' ' -f1); \
+		target_name="$$hash.$$ext"; \
+		target_path="$(BIN_ASSETS_DIR)/$$target_name"; \
+		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
+			cp "$$file" "$$target_path"; \
+			echo "Copied $$base to $$target_name"; \
+		else \
+			target_path="$$file"; \
+		fi; \
+		zip -j "$(ZIP_FILE)" "$$target_path"; \
+	done
 	@echo 'Build complete.'
 	@sha256sum "$(ZIP_FILE)"
 
 clean:
-	@echo 'Cleaning up build file and temp dir...'
+	@echo 'Cleaning up build files and temp dir...'
 	@rm -f "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
+	@rm -rf "$(BIN_ASSETS_DIR)"/*.*
 	@rm -rf "$(TEMP)"
 
 # Ensure necessary directories exist
 "$(SRC_DIR)":
 	@echo 'Creating "$(SRC_DIR)" directory...'
 	@mkdir -p "$(SRC_DIR)"
-
 "$(ASSETS_DIR)":
 	@echo 'Creating "$(ASSETS_DIR)" directory...'
 	@mkdir -p "$(ASSETS_DIR)"
 "$(BIN_DIR)":
 	@echo 'Creating "$(BIN_DIR)" directory...'
 	@mkdir -p "$(BIN_DIR)"
+"$(BIN_ASSETS_DIR)":
+	@echo 'Creating "$(BIN_ASSETS_DIR)" directory...'
+	@mkdir -p "$(BIN_ASSETS_DIR)"
