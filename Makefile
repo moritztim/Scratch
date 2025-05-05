@@ -1,43 +1,54 @@
-NAME = Project
+# metadata (customizable)
 
+# used for name of binary file
+# spaces allowed
+NAME = Project
+# project or sprite
+# must be lowercase
+TYPE = project
+
+# project structure (customizable)
 SRC_DIR = src
-PROJECT_FILE = project.json
 ASSETS_DIR = assets
 BIN_DIR = bin
-EXT = sb3
-BIN_FILE = $(BIN_DIR)/$(NAME).$(EXT)
+
+# zip file structure
+ZIP_JSON_FILE = "$(TYPE)".json
+ZIP_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
+
+ZIP_FILE = "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
 TEMP := $(shell mktemp -d)
 
-extract: $(SRC_DIR) $(ASSETS_DIR)
-	@echo "Extracting $(BIN_FILE)..."
-	@unzip -q $(BIN_FILE) -d $(TEMP)
-	@echo "Moving project file to $(SRC_DIR)"
-	@mv $(TEMP)/$(PROJECT_FILE) $(SRC_DIR)/$(PROJECT_FILE)
-	@echo "Moving assets to $(ASSETS_DIR)"
-	@mv $(TEMP)/* $(ASSETS_DIR)/
-	@echo "Cleaning up temp directory..."
-	@rm -rf $(TEMP)
+extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
+	@echo 'Extracting "$(ZIP_FILE)"...'
+	@unzip -q "$(ZIP_FILE)" -d "$(TEMP)"
+	@echo 'Moving project file to "$(SRC_DIR)"'
+	@mv "$(TEMP)"/"$(ZIP_JSON_FILE)" "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+	@echo 'Moving assets to "$(ASSETS_DIR)"'
+	@mv "$(TEMP)"/* "$(ASSETS_DIR)"/
+	@echo 'Cleaning up temp directory...'
+	@rm -rf "$(TEMP)"
 
-build: clean $(SRC_DIR) $(ASSETS_DIR) $(BIN_DIR)
-	@echo "Building $(NAME)..."
-	@cd $(SRC_DIR) && zip -r ../$(BIN_FILE) ./*
-	@cd $(ASSETS_DIR) && zip -r ../$(BIN_FILE) ./*
-	@echo "Build complete."
-	@sha256sum $(BIN_FILE)
+build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)"
+	@echo 'Building "$(NAME)"...'
+	@cd "$(SRC_DIR)" && zip -r ../"$(ZIP_FILE)" ./*
+	@cd "$(ASSETS_DIR)" && zip -r ../"$(ZIP_FILE)" ./*
+	@echo 'Build complete.'
+	@sha256sum "$(ZIP_FILE)"
 
 clean:
-	@echo "Cleaning up build file and temp dir..."
-	@rm -f $(BIN_DIR)/$(NAME).$(EXT)
-	@rm -rf $(TEMP)
+	@echo 'Cleaning up build file and temp dir...'
+	@rm -f "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
+	@rm -rf "$(TEMP)"
 
 # Ensure necessary directories exist
-$(SRC_DIR):
-	@echo "Creating src/ directory..."
-	@mkdir -p $(SRC_DIR)
+"$(SRC_DIR)":
+	@echo 'Creating "$(SRC_DIR)" directory...'
+	@mkdir -p "$(SRC_DIR)"
 
-$(ASSETS_DIR):
-	@echo "Creating assets/ directory..."
-	@mkdir -p $(ASSETS_DIR)
-$(BIN_DIR):
-	@echo "Creating bin/ directory..."
-	@mkdir -p $(BIN_DIR)
+"$(ASSETS_DIR)":
+	@echo 'Creating "$(ASSETS_DIR)" directory...'
+	@mkdir -p "$(ASSETS_DIR)"
+"$(BIN_DIR)":
+	@echo 'Creating "$(BIN_DIR)" directory...'
+	@mkdir -p "$(BIN_DIR)"
