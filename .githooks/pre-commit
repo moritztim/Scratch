@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-make extract
+make extract #format
+# formatting requires prettier to be installed. Remove the "#" above to enable it.

@@ -29,6 +29,10 @@ extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	@echo 'Cleaning up temp directory...'
 	@rm -rf "$(TEMP)"
 
+format:
+	@echo 'Formatting $(ZIP_JSON_FILE)...'
+	@prettier --write "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)"
 	@echo 'Building "$(NAME)"...'
 	@cd "$(SRC_DIR)" && zip -r ../"$(ZIP_FILE)" ./*
