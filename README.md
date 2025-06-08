@@ -72,12 +72,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contributing
 
 Contributions are welcome! If you have any suggestions or improvements, feel free to open an issue or submit a pull request.
-
-[^1]: You may also modify any lines starting with `#`, since they're just comments.
-[^2]: [Scratch Wiki on Projects](https://en.scratch-wiki.info/wiki/Project)
-[^3]: [Scratch Wiki on Sprites](https://en.scratch-wiki.info/wiki/Sprite)
-[^4]: [Scratch Wiki on Sharing Projects](https://en.scratch-wiki.info/wiki/Sharing_projects)
-[^5]: [Scratch Wiki on Assets](https://en.scratch-wiki.info/wiki/Scratch_File_Frmat#Assets)
-[^7]: [Scratch Wiki on the Scratch File Format](https://en.scratch-wiki.info/wiki/Scratch_File_Format)
-[^6]: [Scratch Wiki on Project Files](https://en.scratch-wiki.info/wiki/Scratch_File_Format#Project_Files)
-[^8]: [Scratch Wiki on Sprite Files](https://en.scratch-wiki.info/wiki/Scratch_File_Format#Sprite_Files)
