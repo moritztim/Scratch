@@ -89,6 +89,11 @@ Spaces are allowed.
 ##### `TYPE` = `project`
 Must be either `project`[^2] or `sprite`[^3], in lowercase.
 
+##### `PROJECT_ID`: Numerical project ID on the Scratch website
+
+This can be found in the URLs related to the project. For example: <a href="https://scratch.mit.edu/projects/1105131011/editor" target="_blank"> https://scratch.mit.edu/projects/`1105131011`/editor</a>
+If the project is not "shared", you need to be logged in as the author to see it.
+If other users find your project ID, they will not be able to tell that there even is a project with this ID unless you have "shared" it. [^4]
 
 #### Project Structure
 
@@ -121,6 +126,12 @@ The file extension of the final Scratch file[^6]. This changes depending on the 
 
 ##### `ZIP_FILE` = `$(OUT_DIR)/$(NAME).$(ZIP_FILE_EXTENSION)`
 The path (including the file name) of the final scratch file[^6].
+
+##### `SCRATCH_BASE_URL` = `https://scratch.mit.edu`
+The base URL of the Scratch website. This is used for the `open` target.
+
+##### `OPEN_COMMAND` = `xdg-open`
+The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
