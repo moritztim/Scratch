@@ -25,7 +25,7 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 	```bash
 	git config core.hooksPath .githooks
 	```
-3. Edit the [`Makefile`](Makefile) to change the `NAME`. (If you want to manage a sprite instead of a project, also change the `TYPE` to `sprite`.)
+3. Edit the [`Makefile`](Makefile) to change the `NAME` (if you want to manage a sprite instead of a project, also change the `TYPE` to `sprite`).
 4. If you want to enable formatting, you need to remove a `#` in [`.githooks/pre-commit`](.githooks/pre-commit). Open it in a text editor and you'll find instructions there.
 
 ### Usage
