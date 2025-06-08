@@ -26,6 +26,7 @@ OUT_FILE_LOCATION = "$(OUT_DIR)"
 
 # == COMMANDS ==
 OPEN_BROWSER_COMMAND = "xdg-open"
+REMOVE_EXTRA_SLASHES = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
 # == END OF COMMANDS ==
 
 # == SCRATCH WEBSITE
@@ -79,24 +80,34 @@ clean:
 	rm -rf "$(ASSETS_OUT_DIR)"/*.*
 	rm -rf "$(TEMP)"
 
-check-website-access:
-	@if [ -z "$(SCRATCH_PROJECT_ID)" ]; then \
-		echo 'Error: SCRATCH_PROJECT_ID is not set.'; \
-		echo 'Please set it in the Makefile before running this target.'; \
-		exit 1; \
-	fi
+check-browser-command:
 	@if ! command -v "$(OPEN_BROWSER_COMMAND)" &> /dev/null; then \
 		echo 'Error: Open command "$(OPEN_BROWSER_COMMAND)" not found.'; \
 		exit 1; \
 	fi
 
-open: check-website-access
+check-project-id:
+	@if [ -z "$(SCRATCH_PROJECT_ID)" ]; then \
+		echo 'Error: SCRATCH_PROJECT_ID is not set.'; \
+		echo 'Please set it in the Makefile before running this target.'; \
+		exit 1; \
+	fi
+
+open: check-browser-command check-project-id
 	@echo 'Opening project page in Scratch...'
 	$(OPEN_BROWSER_COMMAND) $(SCRATCH_PROJECT_URL)
 
-edit: check-website-access
-	@echo 'Opening project in Scratch editor...'
-	$(OPEN_BROWSER_COMMAND) "$(SCRATCH_PROJECT_URL)edit"
+edit: check-browser-command
+	@if make check-project-id; then \
+		echo 'Opening project in Scratch editor...'; \
+	else \
+		echo 'Creating new project in Scratch...'; \
+	fi
+
+	$(OPEN_BROWSER_COMMAND) "$$( \
+		echo "$(SCRATCH_PROJECT_URL)/editor" | $(REMOVE_EXTRA_SLASHES) \
+	)"
+
 
 # Ensure necessary directories exist
 "$(SRC_DIR)":
