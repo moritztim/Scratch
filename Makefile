@@ -26,7 +26,7 @@ OUT_FILE_LOCATION = "$(OUT_DIR)"
 
 # == COMMANDS ==
 OPEN_BROWSER_COMMAND = "xdg-open"
-REMOVE_EXTRA_SLASHES = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
+REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
 # == END OF COMMANDS ==
 
 # == SCRATCH WEBSITE
@@ -62,7 +62,7 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
 		base=$$(basename "$$file"); \
-		hash=$$(md5sum "$$file" | cut -d' ' -f1); \
+		hash=$$($(HASH_ALGORYTHM)sum "$$file" | cut -d' ' -f1); \
 		target_name="$$hash.$$ext"; \
 		target_path="$(ASSETS_OUT_DIR)/$$target_name"; \
 		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
@@ -105,7 +105,7 @@ edit: check-browser-command
 	fi
 
 	$(OPEN_BROWSER_COMMAND) "$$( \
-		echo "$(SCRATCH_PROJECT_URL)/editor" | $(REMOVE_EXTRA_SLASHES) \
+		echo "$(SCRATCH_PROJECT_URL)/editor" | $(REMOVE_EXTRA_SLASHES_COMMAND) \
 	)"
 
 
