@@ -46,11 +46,20 @@ This is the directory where the final scratch file[^6] will be created. If you w
 
 ### Commands
 
+### `FORMAT_COMMAND` = `prettier --write`
+
+The command used to format the `project.json` or `sprite.json` file. To run this for every commit, remove the `#` before `format` in `.githooks/pre-commit`.
+
 ### `OPEN_BROWSER_COMMAND` = `xdg-open`
 
 The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
 
+### `MAKE_COMMAND` = `make`
+
+The command used to run the `Makefile`.
+
 ### `REMOVE_EXTRA_SLASHES_COMMAND` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
+
 The command used to remove extra slases from the path of a given URL.
 
 ## Scratch Website
