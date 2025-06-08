@@ -110,15 +110,6 @@ edit: check-browser-command
 
 
 # Ensure necessary directories exist
-"$(SRC_DIR)":
-	@echo 'Creating "$(SRC_DIR)" directory...'
-	mkdir -p "$(SRC_DIR)"
-"$(ASSETS_DIR)":
-	@echo 'Creating "$(ASSETS_DIR)" directory...'
-	mkdir -p "$(ASSETS_DIR)"
-"$(OUT_DIR)":
-	@echo 'Creating "$(OUT_DIR)" directory...'
-	mkdir -p "$(OUT_DIR)"
-"$(ASSETS_OUT_DIR)":
-	@echo 'Creating "$(ASSETS_OUT_DIR)" directory...'
-	mkdir -p "$(ASSETS_OUT_DIR)"
+%:
+	@echo Creating directory $@...
+	mkdir -p $@
