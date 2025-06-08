@@ -40,13 +40,32 @@ Where the asset files, i.e. sounds and costumes are stored.[^5].
 
 Where the output files are stored. This is where the final scratch file[^6] will be created.
 
+### `OUT_FILE_LOCATION` = `$(OUT_DIR)`
+
+This is the directory where the final scratch file[^6] will be created. If you want it to be directly in the project root, set it to `.`. If you change this to be outside of the [`OUT_DIR`](#out_dir), make sure to add your custom location to the `.gitignore` file, so that it doesn't get committed to the repository. If there are other files in this directory, that you do want in your repository, you need to add the exact file path to the `.gitignore` file, as defined by [`OUT_FILE`](#out_file).
+
+### Commands
+
+### `OPEN_BROWSER_COMMAND` = `xdg-open`
+
+The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
+
+### `REMOVE_EXTRA_SLASHES` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
+The command used to remove extra slases from the path of a given URL.
+
+## Scratch Website
+
+### `SCRATCH_BASE_URL` = `"https://scratch.mit.edu"`
+
+Base URL of the Scratch website.
+
+### `SCRATCH_PROJECT_URL` = `$(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)`
+
+URL of the project page on the Scratch website.
+
 ## Scratch File Format
 
 This is based on the external specification of the Scratch file format[^7].
-
-### `OUT_FILE_LOCATION` = `$(OUT_DIR)`
-
-This is the directory where the final scratch file[^6] will be created. If you want it to be directly in the project root, set it to `.`. If you change this to be outside of the [`OUT_DIR`](#out_dir), make sure to add your custom location to the `.gitignore` file, so that it doesn't get committed to the repository. If there are other files in this directory, that you do want in your repository, you need to add the exact file path to the `.gitignore` file, as defined by [`ZIP_FILE`](#zip_file).
 
 #### `ZIP_ASSETS_DIR` = `$(OUT_DIR)/assets`
 
@@ -56,21 +75,13 @@ Where the asset files are stored after building the project. This is where the f
 
 Base name of the JSON file that will be created in the `$(OUT_DIR)` directory. It will be named `project.json` or `sprite.json` depending on the value of `TYPE`.
 
-#### `ZIP_FILE_EXTENSION` ≈ `sb3` or `sprite3`
+#### `OUT_FILE_EXTENSION` ≈ `sb3` or `sprite3`
 
 The file extension of the final Scratch file[^6]. This changes depending on the value of `TYPE`: `sb3`[^7] for `project`s and `sprite3`[^8] for `sprite`s.
 
-#### `ZIP_FILE` = `$(OUT_DIR)/$(NAME).$(ZIP_FILE_EXTENSION)`
+#### `OUT_FILE` = `$(OUT_DIR)/$(NAME).$(OUT_FILE_EXTENSION)`
 
 The path (including the file name) of the final scratch file[^6].
-
-#### `SCRATCH_BASE_URL` = `https://scratch.mit.edu`
-
-The base URL of the Scratch website. This is used for the `open` target.
-
-#### `OPEN_COMMAND` = `xdg-open`
-
-The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
 
 [^1]: You may also modify any lines starting with `#`, since they're just comments.
 [^2]: [Scratch Wiki on Projects](https://en.scratch-wiki.info/wiki/Project)
