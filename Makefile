@@ -11,6 +11,7 @@
 # == METADATA ==
 NAME = "Project"
 TYPE = "project"
+SCRATCH_PROJECT_ID = ""
 # == END OF METADATA ==
 
 # == PROJECT STRUCTURE ==
@@ -22,6 +23,15 @@ OUT_FILE_LOCATION = "$(OUT_DIR)"
 
 # don't edit below this line unless you know what you're doing!*
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
+
+# == COMMANDS ==
+OPEN_BROWSER_COMMAND = xdg-open
+# == END OF COMMANDS ==
+
+# == SCRATCH WEBSITE
+SCRATCH_BASE_URL = https://scratch.mit.edu
+SCRATCH_PROJECT_URL = "$(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)/"
+# == END OF SCRATCH WEBSITE ==
 
 # ==SCRATCH FILE FORMAT==
 ASSETS_OUT_DIR = "$(OUT_DIR)/assets"
@@ -68,6 +78,25 @@ clean:
 	rm -f "$(OUT_DIR)"/"$(NAME)"."$(OUT_FILE_EXTENSION)"
 	rm -rf "$(ASSETS_OUT_DIR)"/*.*
 	rm -rf "$(TEMP)"
+
+check-website-access:
+	@if [ -z "$(SCRATCH_PROJECT_ID)" ]; then \
+		echo 'Error: SCRATCH_PROJECT_ID is not set.'; \
+		echo 'Pleasee set it in the Makefile before running this target.'; \
+		exit 1; \
+	fi
+	@if ! command -v "$(OPEN_BROWSER_COMMAND)" &> /dev/null; then \
+		echo 'Error: Open command "$(OPEN_BROWSER_COMMAND)" not found.'; \
+		exit 1; \
+	fi
+
+open: check-website-access
+	@echo 'Opening project page in Scratch...'
+	$(OPEN_BROWSER_COMMAND) "$(SCRATCH_PROJECT_URL)"
+
+edit: check-website-access
+	@echo 'Opening project in Scratch editor...'
+	$(OPEN_BROWSER_COMMAND) "$(SCRATCH_PROJECT_URL)edit"
 
 # Ensure necessary directories exist
 "$(SRC_DIR)":
