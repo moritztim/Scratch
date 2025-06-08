@@ -50,7 +50,7 @@ This is the directory where the final scratch file[^6] will be created. If you w
 
 The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
 
-### `REMOVE_EXTRA_SLASHES` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
+### `REMOVE_EXTRA_SLASHES_COMMAND` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
 The command used to remove extra slases from the path of a given URL.
 
 ## Scratch Website
