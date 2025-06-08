@@ -39,14 +39,14 @@ ASSETS_OUT_DIR = "$(OUT_DIR)/assets"
 OUT_JSON_FILE = "$(TYPE)".json
 OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
 
-OUT_FILE_FILE = "$(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)"
+OUT_FILE = "$(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)"
 # ==END OF SCRATCH FILE FORMAT==
 
 TEMP := $(shell mktemp -d)
 
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
-	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE_FILE)"...'
-	unzip -q "$(OUT_FILE_FILE)" -d "$(TEMP)"
+	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE)"...'
+	unzip -q "$(OUT_FILE)" -d "$(TEMP)"
 	mv "$(TEMP)"/"$(OUT_JSON_FILE)" "$(SRC_DIR)"/"$(OUT_JSON_FILE)"
 	mv "$(TEMP)"/* "$(ASSETS_DIR)"/
 	rm -rf "$(TEMP)"
@@ -57,7 +57,7 @@ format:
 
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo 'Building project "$(NAME)"...'
-	zip "$(OUT_FILE_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"
+	zip "$(OUT_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"
 	for file in $(ASSETS_DIR)/*; do \
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
@@ -70,9 +70,9 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 		else \
 			target_path="$$file"; \
 		fi; \
-		zip -j "$(OUT_FILE_FILE)" "$$target_path"; \
+		zip -j "$(OUT_FILE)" "$$target_path"; \
 	done
-	sha256sum "$(OUT_FILE_FILE)"
+	sha256sum "$(OUT_FILE)"
 
 clean:
 	@echo 'Cleaning up build files and temp dir...'
