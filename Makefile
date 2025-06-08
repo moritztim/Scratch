@@ -82,7 +82,7 @@ clean:
 check-website-access:
 	@if [ -z "$(SCRATCH_PROJECT_ID)" ]; then \
 		echo 'Error: SCRATCH_PROJECT_ID is not set.'; \
-		echo 'Pleasee set it in the Makefile before running this target.'; \
+		echo 'Please set it in the Makefile before running this target.'; \
 		exit 1; \
 	fi
 	@if ! command -v "$(OPEN_BROWSER_COMMAND)" &> /dev/null; then \
