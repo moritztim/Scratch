@@ -25,7 +25,9 @@ OUT_FILE_LOCATION = "$(OUT_DIR)"
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
 # == COMMANDS ==
+FORMAT_COMMAND = "prettier --write"
 OPEN_BROWSER_COMMAND = "xdg-open"
+MAKE_COMMAND = "make"
 REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
 # == END OF COMMANDS ==
 
@@ -98,7 +100,7 @@ open: check-browser-command check-project-id
 	$(OPEN_BROWSER_COMMAND) $(SCRATCH_PROJECT_URL)
 
 edit: check-browser-command
-	@if make check-project-id; then \
+	@if $(MAKE_COMMAND) check-project-id; then \
 		echo 'Opening project in Scratch editor...'; \
 	else \
 		echo 'Creating new project in Scratch...'; \
