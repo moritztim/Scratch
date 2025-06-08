@@ -1,61 +1,73 @@
-# metadata (customizable)
+# === CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
+# Settings can be changed by editing the quoted values. The quotes must be kept.
+# Spaces are allowed, special characters are not.
+# To reference other variables, wrap them like $(THIS) and use their exact name.
+# More information on each setting is available in the README.md file
+# 
+# Unless you know what you're doing, only edit this section (marked by ===).*
+# *You may also modify any lines starting with "#", since they're just comments.
+# If you do know what you're doing, consider making a fork of the template!
 
-# used for name of binary file
-# spaces allowed
-NAME = Project
-# project or sprite
-# must be lowercase
-TYPE = project
+# == METADATA ==
+NAME = "Project"
+TYPE = "project"
+# == END OF METADATA ==
 
-# project structure (customizable)
-SRC_DIR = src
-ASSETS_DIR = assets
-BIN_DIR = bin
-BIN_ASSETS_DIR = "$(BIN_DIR)"/assets
+# == PROJECT STRUCTURE ==
+SRC_DIR = "src"
+ASSETS_DIR = "assets"
+OUT_DIR = "bin"
+OUT_FILE_LOCATION = "$(OUT_DIR)"
+# == END OF PROJECT STRUCTURE ==
 
-# zip file structure
-ZIP_JSON_FILE = "$(TYPE)".json
-ZIP_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
+# don't edit below this line unless you know what you're doing!*
+# === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
-ZIP_FILE = "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
+# ==SCRATCH FILE FORMAT==
+ASSETS_OUT_DIR = "$(OUT_DIR)/assets"
+OUT_JSON_FILE = "$(TYPE)".json
+OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
+
+OUT_FILE_FILE = "$(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)"
+# ==END OF SCRATCH FILE FORMAT==
+
 TEMP := $(shell mktemp -d)
 
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
-	@echo 'Extracting "$(ZIP_JSON_FILE)" and assets from "$(ZIP_FILE)"...'
-	unzip -q "$(ZIP_FILE)" -d "$(TEMP)"
-	mv "$(TEMP)"/"$(ZIP_JSON_FILE)" "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE_FILE)"...'
+	unzip -q "$(OUT_FILE_FILE)" -d "$(TEMP)"
+	mv "$(TEMP)"/"$(OUT_JSON_FILE)" "$(SRC_DIR)"/"$(OUT_JSON_FILE)"
 	mv "$(TEMP)"/* "$(ASSETS_DIR)"/
 	rm -rf "$(TEMP)"
 
 format:
-	@echo 'Formatting $(ZIP_JSON_FILE)...'
-	prettier --write "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+	@echo 'Formatting $(OUT_JSON_FILE)...'
+	prettier --write "$(SRC_DIR)"/"$(OUT_JSON_FILE)"
 
-build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)" "$(BIN_ASSETS_DIR)"
+build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo 'Building project "$(NAME)"...'
-	zip "$(ZIP_FILE)" "$(SRC_DIR)/$(ZIP_JSON_FILE)"
+	zip "$(OUT_FILE_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"
 	for file in $(ASSETS_DIR)/*; do \
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
 		base=$$(basename "$$file"); \
 		hash=$$(md5sum "$$file" | cut -d' ' -f1); \
 		target_name="$$hash.$$ext"; \
-		target_path="$(BIN_ASSETS_DIR)/$$target_name"; \
+		target_path="$(ASSETS_OUT_DIR)/$$target_name"; \
 		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
 			cp "$$file" "$$target_path"; \
 		else \
 			target_path="$$file"; \
 		fi; \
-		zip -j "$(ZIP_FILE)" "$$target_path"; \
+		zip -j "$(OUT_FILE_FILE)" "$$target_path"; \
 	done
-	sha256sum "$(ZIP_FILE)"
+	sha256sum "$(OUT_FILE_FILE)"
 
 clean:
 	@echo 'Cleaning up build files and temp dir...'
-	rm -f "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
-	rm -rf "$(BIN_ASSETS_DIR)"/*.*
+	rm -f "$(OUT_DIR)"/"$(NAME)"."$(OUT_FILE_EXTENSION)"
+	rm -rf "$(ASSETS_OUT_DIR)"/*.*
 	rm -rf "$(TEMP)"
-
 
 # Ensure necessary directories exist
 "$(SRC_DIR)":
@@ -64,9 +76,9 @@ clean:
 "$(ASSETS_DIR)":
 	@echo 'Creating "$(ASSETS_DIR)" directory...'
 	mkdir -p "$(ASSETS_DIR)"
-"$(BIN_DIR)":
-	@echo 'Creating "$(BIN_DIR)" directory...'
-	mkdir -p "$(BIN_DIR)"
-"$(BIN_ASSETS_DIR)":
-	@echo 'Creating "$(BIN_ASSETS_DIR)" directory...'
-	mkdir -p "$(BIN_ASSETS_DIR)"
+"$(OUT_DIR)":
+	@echo 'Creating "$(OUT_DIR)" directory...'
+	mkdir -p "$(OUT_DIR)"
+"$(ASSETS_OUT_DIR)":
+	@echo 'Creating "$(ASSETS_OUT_DIR)" directory...'
+	mkdir -p "$(ASSETS_OUT_DIR)"
