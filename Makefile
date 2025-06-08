@@ -3,7 +3,7 @@
 # Spaces are allowed, special characters are not.
 # To reference other variables, wrap them like $(THIS) and use their exact name.
 # More information on each setting is available in the ENVIRONMENT.md file
-# 
+#
 # Unless you know what you're doing, only edit this section (marked by ===).*
 # *You may also modify any lines starting with "#", since they're just comments.
 # If you do know what you're doing, consider making a fork of the template!
