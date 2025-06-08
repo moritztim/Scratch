@@ -25,12 +25,12 @@ OUT_FILE_LOCATION = "$(OUT_DIR)"
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
 # == COMMANDS ==
-OPEN_BROWSER_COMMAND = xdg-open
+OPEN_BROWSER_COMMAND = "xdg-open"
 # == END OF COMMANDS ==
 
 # == SCRATCH WEBSITE
-SCRATCH_BASE_URL = https://scratch.mit.edu
-SCRATCH_PROJECT_URL = "$(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)"
+SCRATCH_BASE_URL = "https://scratch.mit.edu"
+SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)
 # == END OF SCRATCH WEBSITE ==
 
 # ==SCRATCH FILE FORMAT==
@@ -92,7 +92,7 @@ check-website-access:
 
 open: check-website-access
 	@echo 'Opening project page in Scratch...'
-	$(OPEN_BROWSER_COMMAND) "$(SCRATCH_PROJECT_URL)"
+	$(OPEN_BROWSER_COMMAND) $(SCRATCH_PROJECT_URL)
 
 edit: check-website-access
 	@echo 'Opening project in Scratch editor...'
