@@ -21,26 +21,20 @@ ZIP_FILE = "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
 TEMP := $(shell mktemp -d)
 
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
-	@echo 'Extracting "$(ZIP_FILE)"...'
-	@unzip -q "$(ZIP_FILE)" -d "$(TEMP)"
-	@echo 'Moving project file to "$(SRC_DIR)"'
-	@mv "$(TEMP)"/"$(ZIP_JSON_FILE)" "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
-	@echo 'Moving assets to "$(ASSETS_DIR)"'
-	@mv "$(TEMP)"/* "$(ASSETS_DIR)"/
-	@echo 'Cleaning up temp directory...'
-	@rm -rf "$(TEMP)"
+	@echo 'Extracting "$(ZIP_JSON_FILE)" and assets from "$(ZIP_FILE)"...'
+	unzip -q "$(ZIP_FILE)" -d "$(TEMP)"
+	mv "$(TEMP)"/"$(ZIP_JSON_FILE)" "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+	mv "$(TEMP)"/* "$(ASSETS_DIR)"/
+	rm -rf "$(TEMP)"
 
 format:
 	@echo 'Formatting $(ZIP_JSON_FILE)...'
-	@prettier --write "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
+	prettier --write "$(SRC_DIR)"/"$(ZIP_JSON_FILE)"
 
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)" "$(BIN_ASSETS_DIR)"
-	@echo 'Building "$(NAME)"...'
-	@echo 'Renaming assets to their md5 hashes...'
-	@echo 'Zipping project file...'
-	@zip "$(ZIP_FILE)" "$(SRC_DIR)/$(ZIP_JSON_FILE)"
-	@echo 'Zipping assets...'
-	@for file in $(ASSETS_DIR)/*; do \
+	@echo 'Building project "$(NAME)"...'
+	zip "$(ZIP_FILE)" "$(SRC_DIR)/$(ZIP_JSON_FILE)"
+	for file in $(ASSETS_DIR)/*; do \
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
 		base=$$(basename "$$file"); \
@@ -49,31 +43,30 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(BIN_DIR)" "$(BIN_ASSETS_DIR)"
 		target_path="$(BIN_ASSETS_DIR)/$$target_name"; \
 		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
 			cp "$$file" "$$target_path"; \
-			echo "Copied $$base to $$target_name"; \
 		else \
 			target_path="$$file"; \
 		fi; \
 		zip -j "$(ZIP_FILE)" "$$target_path"; \
 	done
-	@echo 'Build complete.'
-	@sha256sum "$(ZIP_FILE)"
+	sha256sum "$(ZIP_FILE)"
 
 clean:
 	@echo 'Cleaning up build files and temp dir...'
-	@rm -f "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
-	@rm -rf "$(BIN_ASSETS_DIR)"/*.*
-	@rm -rf "$(TEMP)"
+	rm -f "$(BIN_DIR)"/"$(NAME)"."$(ZIP_FILE_EXTENSION)"
+	rm -rf "$(BIN_ASSETS_DIR)"/*.*
+	rm -rf "$(TEMP)"
+
 
 # Ensure necessary directories exist
 "$(SRC_DIR)":
 	@echo 'Creating "$(SRC_DIR)" directory...'
-	@mkdir -p "$(SRC_DIR)"
+	mkdir -p "$(SRC_DIR)"
 "$(ASSETS_DIR)":
 	@echo 'Creating "$(ASSETS_DIR)" directory...'
-	@mkdir -p "$(ASSETS_DIR)"
+	mkdir -p "$(ASSETS_DIR)"
 "$(BIN_DIR)":
 	@echo 'Creating "$(BIN_DIR)" directory...'
-	@mkdir -p "$(BIN_DIR)"
+	mkdir -p "$(BIN_DIR)"
 "$(BIN_ASSETS_DIR)":
 	@echo 'Creating "$(BIN_ASSETS_DIR)" directory...'
-	@mkdir -p "$(BIN_ASSETS_DIR)"
+	mkdir -p "$(BIN_ASSETS_DIR)"
