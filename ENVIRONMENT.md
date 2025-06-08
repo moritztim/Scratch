@@ -13,7 +13,7 @@
 
 #### `NAME` = `Project`
 
-The name of your project or sprite. This will be used to name the output file in the `bin/` directory.
+The name of your project or sprite. This will be used to name the final Scratch file[^6].
 
 Spaces are allowed.
 
