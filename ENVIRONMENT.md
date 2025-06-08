@@ -18,9 +18,9 @@ Spaces are allowed.
 #### `TYPE` = `project`
 Must be either `project`[^2] or `sprite`[^3], in lowercase.
 
-#### `PROJECT_ID`: Numerical project ID on the Scratch website
+#### `PROJECT_ID` = ""
 
-This can be found in the URLs related to the project. For example: <a href="https://scratch.mit.edu/projects/1105131011/editor" target="_blank"> https://scratch.mit.edu/projects/`1105131011`/editor</a>
+This number can be found in the URLs related to the project. For example: <a href="https://scratch.mit.edu/projects/1105131011/editor" target="_blank"> https://scratch.mit.edu/projects/`1105131011`/editor</a>
 If the project is not "shared", you need to be logged in as the author to see it.
 If other users find your project ID, they will not be able to tell that there even is a project with this ID unless you have "shared" it. [^4]
 
