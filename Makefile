@@ -17,7 +17,7 @@ SCRATCH_PROJECT_ID = ""
 # == PROJECT STRUCTURE ==
 SRC_DIR = "src"
 ASSETS_DIR = "assets"
-OUT_DIR = "bin"
+OUT_DIR = "dist"
 OUT_FILE_LOCATION = "$(OUT_DIR)"
 # == END OF PROJECT STRUCTURE ==
 
