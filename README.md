@@ -67,7 +67,9 @@ You can modify the file structure in the [`Makefile`](Makefile). By default it l
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is dedicated to the public domain under the [Unlicense](LICENSE). The authors do not provide any warranty and will not be liable for any arising claims.
+
+You can do whatever you want with it and I expect no credit or attribution. However, it may be helpful to your users and contributors to link back to the template repository for reference.
 
 ## Contributing
 
