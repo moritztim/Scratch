@@ -32,7 +32,7 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 
 1. [Create a new Scratch project](https://scratch.mit.edu/projects/editor/) or open an existing one.
 2. Select `File` > `Save to your computer` on the website. (If you want to manage a sprite, right-click on the sprite and select `Export`.)
-3. Save the file in `bin/` and name it according to the `NAME` you set in the `Makefile`, keeping the extension.
+3. Save the file in `dist/` and name it according to the `NAME` you set in the `Makefile`, keeping the extension.
 4. Next time you make a git commit, the file will be extracted and optionally formatted. You can also manually trigger this from the terminal by running:
    ```bash
    make extract
@@ -52,10 +52,10 @@ You can modify the file structure in the [`Makefile`](Makefile). By default it l
 
 | File | Description |
 | - | - |
-| [`src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Asset files like sounds and images.** You can rename and edit these but the next time you extract, they will show up with a cryptic name again. You can even delete them after running `make build` once, since this copies them to [`bin/assets/`](bin/assets/). That way you can keep only the ones that you're actually going to change. |
+| [`src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Asset files like sounds and images.** You can rename and edit these but the next time you extract, they will show up with a cryptic name again. You can even delete them after running `make build` once, since this copies them to [`dist/assets/`](dist/assets/). That way you can keep only the ones that you're actually going to change. |
 | [`src/project.json`](src/project.json) or [`src/sprite.json`](src/sprite.json) | **The main Data file. This tracks changes to the project or sprite** and can even allow you to fine tune some values. Don't go crazy with this though as it can easily cause undefined behavior after building and opening the project in Scratch. |
-| [`bin/project.sb3`](bin/) or [`bin/sprite1.sb3`](bin/) | **The compressed Scratch project or sprite file.** This will be named according to the `NAME` you set in the `Makefile`. You can upload this to Scratch by selecting `File` > `Load from your computer` on the website. If you didn't mess with it, it will work with no compromises. |
-| [`bin/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](bin/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Automatically generated files.** These are the files that are created when you run `make build`. They are copies of the files in [`src/assets/`](src/assets/) but with the correct names. You may delete them if you keep the respective files in [`src/assets/`](src/assets/) but they will be recreated when you run `make build`. |
+| [`dist/project.sb3`](dist/) or [`dist/sprite1.sb3`](dist/) | **The compressed Scratch project or sprite file.** This will be named according to the `NAME` you set in the `Makefile`. You can upload this to Scratch by selecting `File` > `Load from your computer` on the website. If you didn't mess with it, it will work with no compromises. |
+| [`dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Automatically generated files.** These are the files that are created when you run `make build`. They are copies of the files in [`src/assets/`](src/assets/) but with the correct names. You may delete them if you keep the respective files in [`src/assets/`](src/assets/) but they will be recreated when you run `make build`. |
 
 </details>
 <details>
@@ -67,8 +67,8 @@ You can modify the file structure in the [`Makefile`](Makefile). By default it l
 | [.githooks/pre-commit](.githooks/pre-commit) | **A simple shell script that runs `make` before every commit.** You can modify it to toggle formatting. It will only run if you enable it acording to the [setup instructions](#setup). |
 | [README.md](README.md) | **Instructions for using this template.** You should replace this with your own. |
 | [LICENSE](LICENSE) | **The terms of the template's License.** For more information, read the file. |
-| [`bin/.gitkeep`](bin/.gitkeep) | **A placeholder** because git doesn't track empty directories. You can remove it. |
-| [.gitignore](.gitignore) | **A note for git** to ignore the `bin/` directory, since it only contains redundant files that are derived from the `src/` directory. |
+| [`dist/.gitkeep`](dist/.gitkeep) | **A placeholder** because git doesn't track empty directories. You can remove it. |
+| [.gitignore](.gitignore) | **A note for git** to ignore the `dist/` directory, since it only contains redundant files that are derived from the `src/` directory. |
 
 </details>
 
