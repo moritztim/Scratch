@@ -60,7 +60,7 @@ format:
 
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo 'Building project "$(NAME)"...'
-	zip $(OUT_FILE) $(SRC_DIR)/$(OUT_JSON_FILE)
+	zip -j $(OUT_FILE) $(SRC_DIR)/$(OUT_JSON_FILE)
 	for file in $(ASSETS_DIR)/*; do \
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
