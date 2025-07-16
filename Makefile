@@ -25,7 +25,7 @@ OUT_FILE_LOCATION = $(OUT_DIR)
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
 # == COMMANDS ==
-FORMAT_COMMAND = "prettier --write"
+FORMAT_COMMAND = "prettier" "--write"
 OPEN_BROWSER_COMMAND = "xdg-open"
 MAKE_COMMAND = "make"
 REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
@@ -50,17 +50,17 @@ TEMP := $(shell mktemp -d)
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE)"...'
 	unzip -q "$(OUT_FILE)" -d "$(TEMP)"
-	mv "$(TEMP)"/"$(OUT_JSON_FILE)" "$(SRC_DIR)"/"$(OUT_JSON_FILE)"
+	mv "$(TEMP)"/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE)
 	mv "$(TEMP)"/* "$(ASSETS_DIR)"/
 	rm -rf "$(TEMP)"
 
 format:
 	@echo 'Formatting $(OUT_JSON_FILE)...'
-	prettier --write "$(SRC_DIR)"/"$(OUT_JSON_FILE)"
+	prettier --write $(SRC_DIR)/$(OUT_JSON_FILE)
 
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo 'Building project "$(NAME)"...'
-	zip "$(OUT_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"
+	zip $(OUT_FILE) $(SRC_DIR)/$(OUT_JSON_FILE)
 	for file in $(ASSETS_DIR)/*; do \
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
