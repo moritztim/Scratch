@@ -43,6 +43,10 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
    ```
 5. To generate a new project/sprite file from the extracted files, run `make build`.
 
+## Limitations
+- **Modifications of extracted files are not supported**. The JSON file does not get parsed, validated or updated.
+- **Asset files can be renamed for clarity**. The Makefile accounts for this by regenerating the correct names inside of the assets output directory. However, after the next extraction, a duplicate file with the original name will be created, which can be ignored or deleted.
+
 ## File Structure
 
 <details>
