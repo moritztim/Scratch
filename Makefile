@@ -18,7 +18,7 @@ SCRATCH_PROJECT_ID = ""
 SRC_DIR = "src"
 ASSETS_DIR = "assets"
 OUT_DIR = "dist"
-OUT_FILE_LOCATION = "$(OUT_DIR)"
+OUT_FILE_LOCATION = $(OUT_DIR)
 # == END OF PROJECT STRUCTURE ==
 
 # don't edit below this line unless you know what you're doing!*
@@ -33,16 +33,16 @@ REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
 
 # == SCRATCH WEBSITE
 SCRATCH_BASE_URL = "https://scratch.mit.edu"
-SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)
+SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)"/projects/"$(SCRATCH_PROJECT_ID)
 # == END OF SCRATCH WEBSITE ==
 
 # ==SCRATCH FILE FORMAT==
 HASH_ALGORYTHM = md5
-ASSETS_OUT_DIR = "$(OUT_DIR)/assets"
-OUT_JSON_FILE = "$(TYPE)".json
+ASSETS_OUT_DIR = $(OUT_DIR)"/assets"
+OUT_JSON_FILE = $(TYPE)".json"
 OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
 
-OUT_FILE = "$(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)"
+OUT_FILE = $(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)
 # ==END OF SCRATCH FILE FORMAT==
 
 TEMP := $(shell mktemp -d)
@@ -73,9 +73,9 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 		else \
 			target_path="$$file"; \
 		fi; \
-		zip -j "$(OUT_FILE)" "$$target_path"; \
+		zip -j $(OUT_FILE) "$$target_path"; \
 	done
-	sha256sum "$(OUT_FILE)"
+	sha256sum $(OUT_FILE)
 
 clean:
 	@echo 'Cleaning up build files and temp dir...'
