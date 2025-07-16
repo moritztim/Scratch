@@ -37,6 +37,7 @@ SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)/projects/$(SCRATCH_PROJECT_ID)
 # == END OF SCRATCH WEBSITE ==
 
 # ==SCRATCH FILE FORMAT==
+HASH_ALGORYTHM = md5
 ASSETS_OUT_DIR = "$(OUT_DIR)/assets"
 OUT_JSON_FILE = "$(TYPE)".json
 OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; else echo "sprite3"; fi)
