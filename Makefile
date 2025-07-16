@@ -45,14 +45,13 @@ OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; els
 OUT_FILE = $(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)
 # ==END OF SCRATCH FILE FORMAT==
 
-TEMP := $(shell mktemp -d)
-
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE)"...'
-	unzip -q "$(OUT_FILE)" -d "$(TEMP)"
-	mv "$(TEMP)"/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE)
-	mv "$(TEMP)"/* "$(ASSETS_DIR)"/
-	rm -rf "$(TEMP)"
+	temp=$(shell mktemp -d); \
+	trap "rm -rf $$temp" EXIT; \
+	unzip -q "$(OUT_FILE)" -d "$(temp)"
+	mv "$(temp)"/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE)
+	mv "$(temp)"/* "$(ASSETS_DIR)"/
 
 format:
 	@echo 'Formatting $(OUT_JSON_FILE)...'
@@ -81,7 +80,6 @@ clean:
 	@echo 'Cleaning up build files and temp dir...'
 	rm -f "$(OUT_DIR)"/"$(NAME)"."$(OUT_FILE_EXTENSION)"
 	rm -rf "$(ASSETS_OUT_DIR)"/*.*
-	rm -rf "$(TEMP)"
 
 check-browser-command:
 	@if ! command -v "$(OPEN_BROWSER_COMMAND)" &> /dev/null; then \
