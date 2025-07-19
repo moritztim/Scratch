@@ -1,6 +1,6 @@
 # Makefile Environment Variables
 
-> Settings can be changed by editing the quoted values. The quotes must be kept. Spaces are allowed, special characters are not. To reference other variables, wrap them like $(THIS) and use their exact name.
+> Settings can be changed by editing the values after the " = ". Spaces are allowed, special characters are not. No quotes are needed. To reference other variables, wrap them like $(THIS) and use their exact name.
 
 ## Customizable Project-Specific Settings
 
