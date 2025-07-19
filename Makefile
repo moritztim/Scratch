@@ -68,6 +68,7 @@ extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 			echo ", skipping..."; \
 		fi; \
 	done
+
 format:
 	@echo 'Formatting $(OUT_JSON_FILE)...'
 	prettier --write $(SRC_DIR)/$(OUT_JSON_FILE)
