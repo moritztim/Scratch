@@ -52,7 +52,7 @@ extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	trap "rm -rf $$temp" EXIT; \
 	unzip -qu "$(OUT_FILE)" -d $$temp; \
 	mv "$$temp/$(OUT_JSON_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"; \
-	if ls "$(ASSETS_DIR)" >/dev/null 2>&1; then \
+	if ls "$(ASSETS_DIR)"/* >/dev/null 2>&1; then \
 		hashes="$$($(HASH_COMMAND) '$(ASSETS_DIR)'/*)"; \
 	else \
 		hashes=""; \
