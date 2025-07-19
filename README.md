@@ -45,7 +45,7 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 
 ## Limitations
 - **Modifications of extracted files are not supported**. The JSON file does not get parsed, validated or updated.
-- **Asset files can be renamed for clarity**. The Makefile accounts for this by regenerating the correct names inside of the assets output directory. However, after the next extraction, a duplicate file with the original name will be created, which can be ignored or deleted.
+- **Asset files can be renamed for clarity**. The Makefile accounts for this by regenerating the correct names inside of the assets output directory while making the build. However, after the next extraction, a duplicate file with the original name will be created, which can be ignored or deleted.
 
 ## File Structure
 
@@ -54,25 +54,25 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 
 You can modify the file structure in the [`Makefile`](Makefile). By default it looks like this:
 
-| File | Description |
-| - | - |
-| [`src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Asset files like sounds and images.** You can rename and edit these but the next time you extract, they will show up with a cryptic name again. You can even delete them after running `make build` once, since this copies them to [`dist/assets/`](dist/assets/). That way you can keep only the ones that you're actually going to change. |
-| [`src/project.json`](src/project.json) or [`src/sprite.json`](src/sprite.json) | **The main Data file. This tracks changes to the project or sprite** and can even allow you to fine tune some values. Don't go crazy with this though as it can easily cause undefined behavior after building and opening the project in Scratch. |
-| [`dist/project.sb3`](dist/) or [`dist/sprite1.sb3`](dist/) | **The compressed Scratch project or sprite file.** This will be named according to the `NAME` you set in the `Makefile`. You can upload this to Scratch by selecting `File` > `Load from your computer` on the website. If you didn't mess with it, it will work with no compromises. |
-| [`dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Automatically generated files.** These are the files that are created when you run `make build`. They are copies of the files in [`src/assets/`](src/assets/) but with the correct names. You may delete them if you keep the respective files in [`src/assets/`](src/assets/) but they will be recreated when you run `make build`. |
+| File                                                                                                   | Description                                                                                                                                                                                                                                                                                                                                     |
+|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](src/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav)   | **Asset files like sounds and images.** You can rename and edit these but the next time you extract, they will show up with a cryptic name again. You can even delete them after running `make build` once, since this copies them to [`dist/assets/`](dist/assets/). That way you can keep only the ones that you're actually going to change. |
+| [`src/project.json`](src/project.json) or [`src/sprite.json`](src/sprite.json)                         | **The main Data file. This tracks changes to the project or sprite** and can even allow you to fine tune some values. Don't go crazy with this though as it can easily cause undefined behavior after building and opening the project in Scratch.                                                                                              |
+| [`dist/project.sb3`](dist/) or [`dist/sprite1.sb3`](dist/)                                             | **The compressed Scratch project or sprite file.** This will be named according to the `NAME` you set in the `Makefile`. You can upload this to Scratch by selecting `File` > `Load from your computer` on the website. If you didn't mess with it, it will work with no compromises.                                                           |
+| [`dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav`](dist/assets/83a9787d4cb6f3b7632b4ddfebf74367.wav) | **Automatically generated files.** These are the files that are created when you run `make build`. They are copies of the files in [`src/assets/`](src/assets/) but with the correct names. You may delete them if you keep the respective files in [`src/assets/`](src/assets/) but they will be recreated when you run `make build`.          |
 
 </details>
 <details>
 	<summary>Other Files</summary>
 
-| File | Description |
-| --- | --- |
-| [`Makefile`](Makefile) | **The main file that contains all the commands.** You can modify its variables to change the file structure or add new commands for your own needs. |
+| File                                         | Description                                                                                                                                                                             |
+|----------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`Makefile`](Makefile)                       | **The main file that contains all the commands.** You can modify its variables to change the file structure or add new commands for your own needs.                                     |
 | [.githooks/pre-commit](.githooks/pre-commit) | **A simple shell script that runs `make` before every commit.** You can modify it to toggle formatting. It will only run if you enable it acording to the [setup instructions](#setup). |
-| [README.md](README.md) | **Instructions for using this template.** You should replace this with your own. |
-| [LICENSE](LICENSE) | **The terms of the template's License.** For more information, read the file. |
-| [`dist/.gitkeep`](dist/.gitkeep) | **A placeholder** because git doesn't track empty directories. You can remove it. |
-| [.gitignore](.gitignore) | **A note for git** to ignore the `dist/` directory, since it only contains redundant files that are derived from the `src/` directory. |
+| [README.md](README.md)                       | **Instructions for using this template.** You should replace this with your own.                                                                                                        |
+| [LICENSE](LICENSE)                           | **The terms of the template's License.** For more information, read the file.                                                                                                           |
+| [`dist/.gitkeep`](dist/.gitkeep)             | **A placeholder** because git doesn't track empty directories. You can remove it.                                                                                                       |
+| [.gitignore](.gitignore)                     | **A note for git** to ignore the `dist/` directory, since it only contains redundant files that are derived from the `src/` directory.                                                  |
 
 </details>
 
