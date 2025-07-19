@@ -1,6 +1,6 @@
 # Scratch Project Git Template
 
-This is a Git repository template that allows you to meaningfully track changes in Scratch projects. It includes a `Makefile` that can extract, format and rebuild your Scratch files, along with a `pre-commit` hook to automate it.
+This is a Git repository template that allows you to meaningfully track changes in Scratch 3.0 projects. It includes a `Makefile` that can extract, format and rebuild your Scratch files, along with a `pre-commit` hook to automate it.
 
 ## Getting Started
 

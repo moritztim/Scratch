@@ -25,10 +25,11 @@ OUT_FILE_LOCATION = $(OUT_DIR)
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
 # ==SCRATCH FILE FORMAT==
+SCRATCH_MAJOR_VERSION = 3
 HASH_ALGORYTHM = md5
 ASSETS_OUT_DIR = $(OUT_DIR)/assets
 OUT_JSON_FILE = $(TYPE).json
-OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = project ]; then echo sb3; else echo sprite3; fi)
+OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = project ]; then echo -n sb; else echo -n sprite; fi)$(SCRATCH_MAJOR_VERSION)
 
 OUT_FILE = $(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)
 # ==END OF SCRATCH FILE FORMAT==
