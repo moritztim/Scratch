@@ -45,7 +45,7 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 
 ## Limitations
 - **Modifications of extracted files are not supported**. The JSON file does not get parsed, validated or updated.
-- **Asset files can be renamed for clarity**. The Makefile accounts for this by regenerating the correct names inside of the assets output directory while making the build. However, after the next extraction, a duplicate file with the original name will be created, which can be ignored or deleted.
+- **Asset files can be renamed for clarity**. The Makefile accounts for this by regenerating the correct names inside of the assets output directory while making the build. While extracting it uses the hashes from extracted file names to check if a file is already present, based on its hash, not its name. However, if the file is modified and re-extracted, a duplicate file with the new hash will be created, which can be ignored or deleted.
 
 ## File Structure
 

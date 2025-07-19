@@ -49,10 +49,25 @@ extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE)"...'
 	temp=$(shell mktemp -d); \
 	trap "rm -rf $$temp" EXIT; \
-	unzip -q "$(OUT_FILE)" -d "$(temp)"
-	mv "$(temp)"/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE)
-	mv "$(temp)"/* "$(ASSETS_DIR)"/
-
+	unzip -qu "$(OUT_FILE)" -d "$$temp"; \
+	mv $$temp/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE); \
+	hashes="$$($(HASH_ALGORYTHM)sum $(ASSETS_DIR)/*)"; \
+	for file in $$temp/*; do \
+		hash=$$($(HASH_ALGORYTHM)sum "$$file" | cut -d' ' -f1); \
+		existing_hash=$$(echo "$$hashes" | grep "$$hash"); \
+		if [ -z "$$existing_hash" ]; then \
+			target_path="$(ASSETS_DIR)/$$(basename "$$file")"; \
+			mv "$$file" "$$target_path"; \
+		else \
+			file_name=$$(echo $$existing_hash | cut -d' ' -f2); \
+			file_name=$$(basename "$$file_name"); \
+			echo -n "File with hash '$$hash' already exists"; \
+			if [ "$$file_name" != "$$(basename "$$file")" ]; then \
+				echo -n " as \"$$file_name\""; \
+			fi; \
+			echo ", skipping..."; \
+		fi; \
+	done
 format:
 	@echo 'Formatting $(OUT_JSON_FILE)...'
 	prettier --write $(SRC_DIR)/$(OUT_JSON_FILE)
