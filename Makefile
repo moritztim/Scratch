@@ -78,7 +78,7 @@ extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 
 format:
 	@echo "Formatting $(OUT_JSON_FILE)..."
-	prettier --write "$(SRC_DIR)/$(OUT_JSON_FILE)"
+	$(FORMAT_COMMAND) "$(SRC_DIR)/$(OUT_JSON_FILE)"
 
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo "Building project \"$(NAME)\"..."
