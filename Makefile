@@ -83,11 +83,20 @@ format:
 build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 	@echo "Building project \"$(NAME)\"..."
 	zip -j "$(OUT_FILE)" "$(SRC_DIR)/$(OUT_JSON_FILE)"
+	hashes=""
 	for file in "$(ASSETS_DIR)"/*; do \
 		[ -f "$$file" ] || continue; \
 		ext="$${file##*.}"; \
 		base=$$(basename "$$file"); \
 		hash=$$($(HASH_COMMAND) "$$file" | cut -d' ' -f1); \
+		if echo "$$hashes" | grep -q "$$hash"; then \
+			echo "Asset \"$$base\" with hash \"$$hash\" already processed, skipping..."; \
+			continue; \
+		fi; \
+		if ! grep -q $$hash "$(SRC_DIR)/$(OUT_JSON_FILE)"; then \
+			echo "WARNING: Asset \"$$base\" with hash \"$$hash\" is not part of the project, skipping..."; \
+			continue; \
+		fi; \
 		target_name="$$hash.$$ext"; \
 		target_path="$(ASSETS_OUT_DIR)/$$target_name"; \
 		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
@@ -96,6 +105,7 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 			target_path="$$file"; \
 		fi; \
 		zip -j "$(OUT_FILE)" "$$target_path"; \
+		hashes="$$hashes $$hash"; \
 	done
 	sha256sum "$(OUT_FILE)"
 

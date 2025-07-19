@@ -45,7 +45,7 @@ For JSON formatting, you need to have [`prettier`](https://prettier.io/) install
 
 ## Limitations
 - **Asset files can be renamed but when modified in the editor, they will be duplicated.** *You will have to delete your renamed files and rename the extracted files again.* This is because the Makefile can only find renamed files if they have the exact same contents as the file being extracted. It can however generate valid file names in the output. (Both of these conditions arise because the files names are derived from the files' MD5 hashes.)
-- **Modifications of extracted files are not supported.** *If you modify your files, you need to re-import them in the editor. The editor may also modify your file slightly.* The JSON file does not get parsed, validated or updated.
+- **Modifications of extracted files are not supported.** *If you modify your files, you need to re-import them in the editor. The editor may also modify your file slightly.* If a file is not referenced by hash in the JSON file, it will not be added to the output. (The JSON file does not get validated or updated.)
 
 ## File Structure
 
