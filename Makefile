@@ -134,6 +134,6 @@ edit: check-browser-command
 
 
 # Ensure necessary directories exist
-%:
+"$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)":
 	@echo Creating directory "$@"...
 	mkdir -p "$@"
