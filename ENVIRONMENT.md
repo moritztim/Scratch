@@ -44,24 +44,6 @@ Where the output files are stored. This is where the final scratch file[^6] will
 
 This is the directory where the final scratch file[^6] will be created. If you want it to be directly in the project root, set it to `.`. If you change this to be outside of the [`OUT_DIR`](#out_dir), make sure to add your custom location to the `.gitignore` file, so that it doesn't get committed to the repository. If there are other files in this directory, that you do want in your repository, you need to add the exact file path to the `.gitignore` file, as defined by [`OUT_FILE`](#out_file).
 
-### Commands
-
-### `FORMAT_COMMAND` = `prettier --write`
-
-The command used to format the `project.json` or `sprite.json` file. To run this for every commit, remove the `#` before `format` in `.githooks/pre-commit`.
-
-### `OPEN_BROWSER_COMMAND` = `xdg-open`
-
-The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
-
-### `MAKE_COMMAND` = `make`
-
-The command used to run the `Makefile`.
-
-### `REMOVE_EXTRA_SLASHES_COMMAND` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
-
-The command used to remove extra slases from the path of a given URL.
-
 ## Scratch Website
 
 ### `SCRATCH_BASE_URL` = `"https://scratch.mit.edu"`
@@ -91,6 +73,31 @@ The file extension of the final Scratch file[^6]. This changes depending on the 
 #### `OUT_FILE` = `$(OUT_DIR)/$(NAME).$(OUT_FILE_EXTENSION)`
 
 The path (including the file name) of the final scratch file[^6].
+
+#### `HASH_ALGORITHM` = `md5`
+
+The algorithm used to calculate the hashes of asset files.
+
+### Commands
+
+### `FORMAT_COMMAND` = `prettier --write`
+
+The command used to format the `project.json` or `sprite.json` file. To run this for every commit, remove the `#` before `format` in `.githooks/pre-commit`.
+
+### `OPEN_BROWSER_COMMAND` = `xdg-open`
+
+The command used to open the project in the browser. This can be any command that takes a URL as its only argument.
+
+### `MAKE_COMMAND` = `make`
+
+The command used to run the `Makefile`.
+
+### `HASH_COMMAND` = `$(HASH_ALGORITHM)sum`
+The command used to invoke the hash algorithm[^5] to calculate the hash of asset files.
+
+### `REMOVE_EXTRA_SLASHES_COMMAND` = `sed -E "s|(.*)//([^/]*)$$|\1/\2|"`
+
+The command used to remove extra slases from the path of a given URL.
 
 [^1]: You may also modify any lines starting with `#`, since they're just comments.
 [^2]: [Scratch Wiki on Projects](https://en.scratch-wiki.info/wiki/Project)

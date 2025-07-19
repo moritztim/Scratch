@@ -24,18 +24,6 @@ OUT_FILE_LOCATION = $(OUT_DIR)
 # don't edit below this line unless you know what you're doing!*
 # === END OF CUSTOMIZABLE PROJECT-SPECIFIC SETTINGS ===
 
-# == COMMANDS ==
-FORMAT_COMMAND = "prettier" "--write"
-OPEN_BROWSER_COMMAND = "xdg-open"
-MAKE_COMMAND = "make"
-REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
-# == END OF COMMANDS ==
-
-# == SCRATCH WEBSITE
-SCRATCH_BASE_URL = "https://scratch.mit.edu"
-SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)"/projects/"$(SCRATCH_PROJECT_ID)
-# == END OF SCRATCH WEBSITE ==
-
 # ==SCRATCH FILE FORMAT==
 HASH_ALGORYTHM = md5
 ASSETS_OUT_DIR = $(OUT_DIR)"/assets"
@@ -45,15 +33,28 @@ OUT_FILE_EXTENSION := $(shell if [ "$(TYPE)" = "project" ]; then echo "sb3"; els
 OUT_FILE = $(OUT_FILE_LOCATION)/$(NAME).$(OUT_FILE_EXTENSION)
 # ==END OF SCRATCH FILE FORMAT==
 
+# == COMMANDS ==
+FORMAT_COMMAND = "prettier" "--write"
+OPEN_BROWSER_COMMAND = "xdg-open"
+MAKE_COMMAND = "make"
+HASH_COMMAND = $(HASH_ALGORYTHM)sum
+REMOVE_EXTRA_SLASHES_COMMAND = sed -E "s|(.*)//([^/]*)$$|\1/\2|"
+# == END OF COMMANDS ==
+
+# == SCRATCH WEBSITE
+SCRATCH_BASE_URL = "https://scratch.mit.edu"
+SCRATCH_PROJECT_URL = $(SCRATCH_BASE_URL)"/projects/"$(SCRATCH_PROJECT_ID)
+# == END OF SCRATCH WEBSITE ==
+
 extract: "$(SRC_DIR)" "$(ASSETS_DIR)"
 	@echo 'Extracting "$(OUT_JSON_FILE)" and assets from "$(OUT_FILE)"...'
 	temp=$(shell mktemp -d); \
 	trap "rm -rf $$temp" EXIT; \
 	unzip -qu "$(OUT_FILE)" -d "$$temp"; \
 	mv $$temp/"$(OUT_JSON_FILE)" $(SRC_DIR)/$(OUT_JSON_FILE); \
-	hashes="$$($(HASH_ALGORYTHM)sum $(ASSETS_DIR)/*)"; \
+	hashes="$$($(HASH_COMMAND) $(ASSETS_DIR)/*)"; \
 	for file in $$temp/*; do \
-		hash=$$($(HASH_ALGORYTHM)sum "$$file" | cut -d' ' -f1); \
+		hash=$$($(HASH_COMMAND) "$$file" | cut -d' ' -f1); \
 		existing_hash=$$(echo "$$hashes" | grep "$$hash"); \
 		if [ -z "$$existing_hash" ]; then \
 			target_path="$(ASSETS_DIR)/$$(basename "$$file")"; \
@@ -80,7 +81,7 @@ build: clean "$(SRC_DIR)" "$(ASSETS_DIR)" "$(OUT_DIR)" "$(ASSETS_OUT_DIR)"
 		[ -f "$$file" ] || continue; \
 		ext=$${file##*.}; \
 		base=$$(basename "$$file"); \
-		hash=$$($(HASH_ALGORYTHM)sum "$$file" | cut -d' ' -f1); \
+		hash=$$($(HASH_COMMAND) "$$file" | cut -d' ' -f1); \
 		target_name="$$hash.$$ext"; \
 		target_path="$(ASSETS_OUT_DIR)/$$target_name"; \
 		if [ "$$base" != "$$target_name" ] && [ ! -f "$$target_path" ]; then \
